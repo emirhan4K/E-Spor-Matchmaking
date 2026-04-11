@@ -10,9 +10,12 @@ const app = express();
 connectDB();
 app.use(express.json());
 
-const httpServer = http.createServer(app);
+const authRoutes = require("./routes/auth.routes");
 
-// Santrali başlatıyoruz!
+
+app.use("/api/auth",authRoutes);
+
+const httpServer = http.createServer(app);
 const io = socket.init(httpServer);
 
 io.on("connection", (socket) => {
