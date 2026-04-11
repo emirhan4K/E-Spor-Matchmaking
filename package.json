@@ -19,7 +19,12 @@
   },
   "homepage": "https://github.com/emirhan4K/E-Spor-Matchmaking#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.4.1",
     "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "joi": "^18.1.2",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.4.1",
     "socket.io": "^4.8.3"
   }
