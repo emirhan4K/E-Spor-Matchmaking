@@ -1,0 +1,26 @@
+{
+  "name": "e-spor-matchmaking",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emirhan4K/E-Spor-Matchmaking.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/emirhan4K/E-Spor-Matchmaking/issues"
+  },
+  "homepage": "https://github.com/emirhan4K/E-Spor-Matchmaking#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.4.1",
+    "socket.io": "^4.8.3"
+  }
+}
