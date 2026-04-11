@@ -20,6 +20,18 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 1000,
   },
-});
+  wins: {
+    type: Number,
+    default: 0,
+  },
+  losses: {
+    type: Number,
+    default: 0,
+  },
+  winRate:{
+    type:Number,
+    default: 0
+  }
+},{timestamps:true});
 
 module.exports = mongoose.model("User", userSchema);

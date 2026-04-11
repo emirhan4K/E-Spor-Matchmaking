@@ -11,9 +11,11 @@ connectDB();
 app.use(express.json());
 
 const authRoutes = require("./routes/auth.routes");
+const userRoutes = require("./routes/user.routes");
 
 
 app.use("/api/auth",authRoutes);
+app.use("/api/users", userRoutes);
 
 const httpServer = http.createServer(app);
 const io = socket.init(httpServer);
