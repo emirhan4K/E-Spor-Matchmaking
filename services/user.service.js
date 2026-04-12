@@ -1,6 +1,5 @@
 const userRepository = require("../repositories/user.repository");
 
-
 class UserService{
 async getProfile(userId) {
     const userProfile = await userRepository.findById(userId);
@@ -8,6 +7,11 @@ async getProfile(userId) {
       throw new Error("Kullanıcı bulunamadı!");
     }
     return userProfile;
+  }
+
+  async updateUserProfile(userId,username,bio){
+    const update = await userRepository.updateProfile(userId,{username,bio})
+    return update;
   }
 }
 

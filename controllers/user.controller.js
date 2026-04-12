@@ -1,13 +1,23 @@
 const userService = require("../services/user.service");
 
-class UserController{
-     async getProfile(req,res){
-    const profile = req.user.userId
+class UserController {
+  async getProfile(req, res) {
+    const profile = req.user.userId;
     try {
-        const result = await authService.getProfile(profile);
-        res.status(200).json(result);
+      const result = await userService.getProfile(profile);
+      res.status(200).json(result);
     } catch (error) {
-        res.status(400).json({message: error.message})
+      res.status(400).json({ message: error.message });
+    }
+  }
+  async updateProfile(req, res) {
+    const profile = req.user.userId;
+    const { username, bio } = req.body;
+    try {
+      const result = await userService.updateUserProfile(profile, username, bio);
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
     }
   }
 }

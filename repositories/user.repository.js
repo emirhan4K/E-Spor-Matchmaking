@@ -15,6 +15,18 @@ class UserRepository {
     const user = await User.findById(userId).select("-password");
     return user;
   }
+
+  async updateProfile(userId, updateData) {
+    const user = await User.findByIdAndUpdate(userId, updateData, {
+      new: true,
+    }).select("-password");
+    return user;
+  }
+
+  async findByIdWithPassword(userId) {
+    const user = await User.findById(userId);
+    return user;
+  }
 }
 
 module.exports = new UserRepository();
