@@ -27,6 +27,15 @@ class UserRepository {
     const user = await User.findById(userId);
     return user;
   }
+
+  async deactiveAccount(userId) {
+    const user = await User.findByIdAndDelete(
+      userId,
+      { isActive: false },
+      { new: true },
+    );
+    return user;
+  }
 }
 
 module.exports = new UserRepository();

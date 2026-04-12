@@ -33,6 +33,17 @@ class UserService {
     });
     return updatedUser;
   }
+
+  async deleteAccount(userId){
+    const user = await userRepository.findById(userId);
+    if(!user){
+      throw new Error("Kullanıcı bulunamadı!");
+    }
+    const deactivatedUser = await userRepository.deactiveAccount(userId);
+    return deactivatedUser;
+
+  }
+
 }
 
 module.exports = new UserService();

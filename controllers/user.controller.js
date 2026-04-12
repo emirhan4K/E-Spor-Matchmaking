@@ -35,9 +35,19 @@ class UserController {
         oldPassword,
         newPassword,
       );
-      res.status(200).json({message: "Şifre başarıyla güncellendi!",result});
+      res.status(200).json({ message: "Şifre başarıyla güncellendi!", result });
     } catch (error) {
-         res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  async deleteAccount(req, res) {
+    const userId = req.user.userId;
+    try {
+      const result = await userService.deleteAccount(userId);
+      res.status(200).json({ message: "Hesabınız başarıyla silindi!" });
+    } catch (error) {
+      res.status(400).json({ message: error.message });
     }
   }
 }
