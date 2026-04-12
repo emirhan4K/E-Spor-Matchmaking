@@ -22,6 +22,11 @@ class AuthSerice {
     if (!existingUser) {
       throw new Error("Hatalı e-posta");
     }
+
+    if(existingUser.isActive === false){
+      throw new Error("Bu hesap silinmiştir. Lütfen destek ekibiyle iletişime geçin.");
+    }
+
     const isPasswordValid = await bcrypt.compare(
       password,
       existingUser.password,

@@ -43,7 +43,6 @@ class UserService {
     return deactivatedUser;
 
   }
-
 }
 
 module.exports = new UserService();
