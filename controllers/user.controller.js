@@ -50,6 +50,20 @@ class UserController {
       res.status(400).json({ message: error.message });
     }
   }
+
+  async updateAvatar(req,res){
+    const userId = req.user.userId;
+    if(!req.file){
+      return res.status(400).json({message: "Lütfen bir resim dosyası yükleyin!"})
+    }
+    try {
+      const result = await userService.updateAvatar(userId,req.file.filename);
+      res.status(200).json({message:"Avatar başarıyla güncellendi",result})
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
 }
 
 module.exports = new UserController();

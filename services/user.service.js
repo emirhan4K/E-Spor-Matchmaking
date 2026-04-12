@@ -43,6 +43,11 @@ class UserService {
     return deactivatedUser;
 
   }
+
+  async updateAvatar(userId,filename){
+    const updatedUser = await userRepository.updateProfile(userId,{avatar: filename},)
+    return updatedUser;
+  }
 }
 
 module.exports = new UserService();
