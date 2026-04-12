@@ -31,6 +31,28 @@ const userSchema = new mongoose.Schema({
   winRate:{
     type:Number,
     default: 0
+  },
+  bio:{
+    type:String,
+    default:"Ben bir E-Sporcuyum!",
+    maxLength: 150,
+    trim:true
+  },
+  avatar:{
+    type:String,
+    default:"default_avatar.png",
+  },
+  level:{
+    type:Number,
+    default:1
+  },
+  xp:{
+    type:Number,
+    default:0
+  },
+  isActive:{
+    type:Boolean,
+    default:true
   }
 },{timestamps:true});
 
