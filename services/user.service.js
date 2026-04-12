@@ -27,7 +27,7 @@ class UserService {
     if (!isMatch) {
       throw new Error("Eski şifre hatalı!");
     }
-    const hashedPassword = bcrypt.hash(newPassword, 10);
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
     const updatedUser = await userRepository.updateProfile(userId, {
       password: hashedPassword,
     });

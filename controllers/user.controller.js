@@ -27,10 +27,10 @@ class UserController {
   }
 
   async changePassword(req, res) {
-    const userId = req.user;
+    const userId = req.user.userId;
     const { oldPassword, newPassword } = req.body;
     try {
-      const result = await userService.updateUserProfile(
+      const result = await userService.changePassword(
         userId,
         oldPassword,
         newPassword,
