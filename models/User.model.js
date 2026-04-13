@@ -47,6 +47,10 @@ const userSchema = new mongoose.Schema({
     type:String,
     default:"default_avatar.png",
   },
+  wallet:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Wallet"
+  },
   level:{
     type:Number,
     default:1
