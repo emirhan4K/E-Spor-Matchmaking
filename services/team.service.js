@@ -15,9 +15,9 @@ class TeamService {
       leader: userId,
       members: [userId],
     });
-    await userRepository.updateProfile(userId,{
-        team:newTeam.id
-    })
+    await userRepository.updateProfile(userId, {
+      team: newTeam.id,
+    });
     return newTeam;
   }
   async getTeamById(teamId) {
@@ -26,6 +26,24 @@ class TeamService {
       throw new Error("Takım bulunamadı!");
     }
     return getAll;
+  }
+  async joinTeam(membersId, teamId) {
+    const user = await userRepository.findById(membersId);
+    if (!user) {
+      throw new Error("Kullanıcı bulunamadı!");
+    }
+    if (user.team) {
+      throw new Error("Zaten bir takımdasın!");
+    }
+    const team = await teamRepository.getTeamById(teamId);
+    if (!team) {
+      throw new Error("Takım bulunamadı!");
+    }
+    await teamRepository.addMemberToTeam(teamId, membersId);
+    const updatedUser = await userRepository.updateProfile(membersId, {
+      team: teamId,
+    });
+    return { updatedUser, team };
   }
 }
 
