@@ -20,6 +20,15 @@ class TeamController{
             next(error)
         }
     }
+    async joinTeam(req,res,next){
+        const id = req.params.id;
+        try {
+            const result = await teamService.joinTeam(id)
+            res.status(201).json(result);
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 module.exports = new TeamController();
