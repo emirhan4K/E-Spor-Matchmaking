@@ -24,9 +24,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 const httpServer = http.createServer(app);
 const io = socket.init(httpServer);
 
-io.on("connection", (socket) => {
-    console.log(`🟢 Yeni bir oyuncu bağlandı! Oyuncu ID: ${socket.id}`);
-});
+require("./sockets/queue.socket")(io);
 
 httpServer.listen(3000, () => {
     console.log(`🚀 Sunucu 3000 portunda çalışıyor`);
