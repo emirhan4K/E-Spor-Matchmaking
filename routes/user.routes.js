@@ -9,4 +9,5 @@ router.put("/profile", authMiddleware, userController.updateProfile)
 router.put("/password", authMiddleware, userController.changePassword)
 router.delete("/profile", authMiddleware, userController.deleteAccount)
 router.put("/avatar", authMiddleware, upload.single("avatar"), userController.updateAvatar);
+router.get("/online", userController.getOnlineUsers);
 module.exports = router;

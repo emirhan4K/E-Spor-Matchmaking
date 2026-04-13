@@ -1,4 +1,5 @@
 const userRepository = require("../repositories/user.repository");
+const onlineService = require("./online.service");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -41,6 +42,7 @@ class AuthSerice {
         expiresIn: "1h",
       },
     );
+    onlineService.loginUser(existingUser._id.toString());
     return { message: "Giriş başarılı.", token };
   }
 

@@ -1,4 +1,5 @@
 const authService = require("../services/auth.service");
+const onlineService = require("../services/online.service");
 
 class AuthController {
   async register(req, res) {
@@ -24,8 +25,6 @@ class AuthController {
       res.status(400).json({ message: error.message });
     }
   }
-
- 
 
 }
 

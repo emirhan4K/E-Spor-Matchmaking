@@ -1,4 +1,5 @@
 const userService = require("../services/user.service");
+const onlineService = require("../services/online.service");
 
 class UserController {
   async getProfile(req, res) {
@@ -64,6 +65,14 @@ class UserController {
     }
   }
 
+  async getOnlineUsers(req, res, next) {
+  try {
+    const activeUsers = onlineService.getOnlineUsers();
+    res.status(200).json({ count: activeUsers.length, users: activeUsers });
+  } catch (error) {
+    next(error); 
+  }
+}
 }
 
 module.exports = new UserController();
