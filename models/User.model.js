@@ -38,6 +38,11 @@ const userSchema = new mongoose.Schema({
     maxLength: 150,
     trim:true
   },
+  team:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Team",
+    default:null
+  },
   avatar:{
     type:String,
     default:"default_avatar.png",
