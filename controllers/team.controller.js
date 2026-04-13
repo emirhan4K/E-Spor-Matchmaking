@@ -21,10 +21,11 @@ class TeamController{
         }
     }
     async joinTeam(req,res,next){
-        const id = req.params.id;
+        const teamId = req.params.id;
+        const userId = req.user.userId
         try {
-            const result = await teamService.joinTeam(id)
-            res.status(201).json(result);
+            const result = await teamService.joinTeam(userId,teamId)
+            res.status(200).json(result);
         } catch (error) {
             next(error)
         }
