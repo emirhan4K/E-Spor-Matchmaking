@@ -15,11 +15,13 @@ const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
 const statRoutes = require("./routes/stat.routes");
 const teamRoutes = require("./routes/team.routes");
+const matchRoutes = require("./routes/match.routes");
 
 app.use("/api/auth",authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/stats",statRoutes)
 app.use("/api/teams", teamRoutes);
+app.use("/api/matches", matchRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const httpServer = http.createServer(app);
