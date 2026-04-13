@@ -30,6 +30,13 @@ class StatService {
     });
     return updatedStats;
   }
+  async getTopPlayers(limit){
+    if(limit == null){
+      limit = 10;
+    }
+    const players = await userRepository.getLeaderboard(limit);
+    return players;
+  }
 }
 
 module.exports = new StatService();

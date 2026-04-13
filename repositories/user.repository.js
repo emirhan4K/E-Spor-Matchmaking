@@ -36,6 +36,11 @@ class UserRepository {
     );
     return user;
   }
+
+  async getLeaderboard(limit){
+    const user = await User.find().sort({elo: -1}).limit(limit).select("username elo avatar")
+    return user;
+  }
 }
 
 module.exports = new UserRepository();
