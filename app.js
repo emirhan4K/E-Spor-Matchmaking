@@ -16,12 +16,14 @@ const userRoutes = require("./routes/user.routes");
 const statRoutes = require("./routes/stat.routes");
 const teamRoutes = require("./routes/team.routes");
 const matchRoutes = require("./routes/match.routes");
+const walletRoutes = require("./routes/wallet.routes");
 
 app.use("/api/auth",authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/stats",statRoutes)
 app.use("/api/teams", teamRoutes);
 app.use("/api/matches", matchRoutes);
+app.use("/api/wallet", walletRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const httpServer = http.createServer(app);
