@@ -15,7 +15,7 @@ class FriendshipController{
         const userId = req.user.userId;
         const requestId = req.params.id;
         try {
-            const result = friendshipService.acceptRequest(userId,requestId);
+            const result = await friendshipService.acceptRequest(userId,requestId);
             res.status(200).json({message:"İstek kabul edildi",result})
         } catch (error) {
             next(error)
@@ -25,7 +25,7 @@ class FriendshipController{
         const userId = req.user.userId;
         const requestId = req.params.id;
         try {
-            const result = friendshipService.rejectRequest(userId,requestId);
+            const result = await friendshipService.rejectRequest(userId,requestId);
             res.status(200).json({message:"İstek reddedildi",result})
         } catch (error) {
             next(error)
