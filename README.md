@@ -52,8 +52,17 @@ The project follows a strict separation of concerns:
 4. Start the server:
     npm start
 
-📡 Complete API Endpoints Overview
-Resource             Endpoint                 Method                  Description
-Auth                 /api/auth/register       POST                    Register a new user account
-
+Resource,Endpoint,Method,Description,Access
+Auth,/api/auth/register,POST,Register a new user account,Public
+Auth,/api/auth/login,POST,Login and receive JWT token,Public
+Users,/api/users/profile,GET,Get logged-in user's profile,Private
+Stats,/api/stats/,GET,"Get player statistics (Elo, Win Rate)",Private
+Teams,/api/teams/create,POST,Create a new e-sports team,Private
+Matches,/api/matches/create,POST,Complete a match & update Elo/Coins,Private
+Wallet,/api/wallet/:id/buy,POST,Buy a virtual item from the store,Private
+Friends,/api/friends/request/:id,POST,Send a friend request to a user,Private
+Friends,/api/friends/request/:id/accept,POST,Accept a pending friend request,Private
+Friends,/api/friends/request/:id/reject,POST,Reject a pending friend request,Private
+Friends,/api/friends/request/pending,GET,List all incoming friend requests,Private
+Friends,/api/friends/list,GET,List all accepted friends,Private
 
