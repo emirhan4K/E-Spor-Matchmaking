@@ -41,3 +41,19 @@ The project follows a strict separation of concerns:
    ```bash
    git clone [https://github.com/emirhan4K/E-Spor-Matchmaking.git](https://github.com/emirhan4K/E-Spor-Matchmaking.git)
 
+2. Install dependencies:
+     npm install
+
+3. Create a .env file in the root directory and add your variables (Do not enter your real passwords here!):
+    PORT=3000
+    MONGO_URI=your_mongodb_connection_string
+    JWT_SECRET=your_super_secret_key
+
+4. Start the server:
+    npm start
+
+📡 Complete API Endpoints Overview
+Resource             Endpoint                 Method                  Description
+Auth                 /api/auth/register       POST                    Register a new user account
+
+
