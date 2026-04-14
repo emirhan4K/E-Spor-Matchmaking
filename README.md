@@ -42,6 +42,7 @@ The project follows a strict separation of concerns:
    git clone [https://github.com/emirhan4K/E-Spor-Matchmaking.git](https://github.com/emirhan4K/E-Spor-Matchmaking.git)
 
 2. Install dependencies:
+    ```bash
      npm install
 
 3. Create a .env file in the root directory and add your variables (Do not enter your real passwords here!):
