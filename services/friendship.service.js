@@ -17,5 +17,11 @@ class FriendshipService{
         const saved = await friendshipRepository.createRequest(requesterId,recipientId);
         return saved;
     }
+    async acceptRequest(userId, requestId){ //İsteği Kabul Etme
+        
+    }
+    async ejectRequest(userId, requestId){
+
+    }
 }
 module.exports = new FriendshipService();
