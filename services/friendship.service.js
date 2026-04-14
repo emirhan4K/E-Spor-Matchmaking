@@ -18,10 +18,32 @@ class FriendshipService{
         return saved;
     }
     async acceptRequest(userId, requestId){ //İsteği Kabul Etme
-        
+        const request = await friendshipRepository.getRequestById(requestId);
+        if(!request){
+            throw new Error("Arkadaşlık isteği bulunamadı!");
+        }
+        if(request.recipient.toString() !== userId.toString()){
+            throw new Error("Bu isteği cevaplama yetkiniz yok!");
+        }
+        if(request.status !== "pending"){
+            throw new Error("Bu istek zaten cevaplanmış!")
+        }
+        const updateRequest = await friendshipRepository.updateRequestStatus(requestId,"accepted")
+        return updateRequest;
     }
-    async ejectRequest(userId, requestId){
-
+    async rejectRequest(userId, requestId){ //İsteği Reddetme
+        const request = await friendshipRepository.getRequestById(requestId);
+        if(!request){
+            throw new Error("Arkadaşlık isteği bulunamadı!");
+        }
+        if(request.recipient.toString() !== userId.toString()){
+            throw new Error("Bu isteği cevaplama yetkiniz yok!");
+        }
+        if(request.status !== "pending"){
+            throw new Error("Bu istek zaten cevaplanmış!")
+        }
+         const updateRequest = await friendshipRepository.updateRequestStatus(requestId,"rejected")
+        return updateRequest;
     }
 }
 module.exports = new FriendshipService();
