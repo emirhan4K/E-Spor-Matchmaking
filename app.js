@@ -10,6 +10,8 @@ const path = require("path");
 const app = express();
 connectDB();
 app.use(express.json());
+//Middleware
+const errorHandler = require("./middlewares/errorHandler.middleware");
 
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
@@ -26,6 +28,7 @@ app.use("/api/matches", matchRoutes);
 app.use("/api/wallet", walletRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+app.use(errorHandler); //Global hata yakalayıcı
 const httpServer = http.createServer(app);
 const io = socket.init(httpServer);
 
