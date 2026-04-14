@@ -38,7 +38,7 @@ The project follows a strict separation of concerns:
 ### Installation
 
 1. Clone the repository:
-            ```bash
+    ```bash
    git clone [https://github.com/emirhan4K/E-Spor-Matchmaking.git](https://github.com/emirhan4K/E-Spor-Matchmaking.git)
 
 2. Install dependencies:
@@ -53,7 +53,7 @@ The project follows a strict separation of concerns:
 
 4. Start the server:
     ```bash
-    ```npm start
+    npm start
 
 ## 📡 Complete API Endpoints Overview
 
