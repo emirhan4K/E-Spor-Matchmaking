@@ -24,6 +24,7 @@ const statRoutes = require("./routes/stat.routes");
 const teamRoutes = require("./routes/team.routes");
 const matchRoutes = require("./routes/match.routes");
 const walletRoutes = require("./routes/wallet.routes");
+const friendshipRoutes = require("./routes/friendship.routes");
 
 //API Routes
 app.use("/api/auth",authRoutes);
@@ -32,6 +33,7 @@ app.use("/api/stats",statRoutes)
 app.use("/api/teams", teamRoutes);
 app.use("/api/matches", matchRoutes);
 app.use("/api/wallet", walletRoutes);
+app.use("/api/friends", friendshipRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 //Global hata yakalayıcı
