@@ -1,4 +1,5 @@
 const userRepository = require("../repositories/user.repository");
+const walletRepository = require("../repositories/wallet.repository");
 const onlineService = require("./online.service");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -15,7 +16,16 @@ class AuthSerice {
       email,
       password: hashedPassword,
     });
-    return { message: "Kullanıcı başarıyla oluşturuldu!", user: newUser };
+
+    const newWallet = await walletRepository.createWallet(newUser._id);
+    await userRepository.updateProfile(newUser._id,{
+      wallet:newWallet.id,
+    });
+
+    return { message: "Kullanıcı başarıyla oluşturuldu!", user:{
+      ...newUser._doc,
+      wallet:newWallet._id,
+    }};
   }
 
   async login(email, password) {

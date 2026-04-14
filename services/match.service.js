@@ -1,5 +1,6 @@
 const matchRepository = require("../repositories/match.repository");
 const userRepository = require("../repositories/user.repository");
+const walletRepository = require("../repositories/wallet.repository");
 
 class MatchService {
   async createMatch(playerA, playerB, winner, score, eloChange) {
@@ -17,6 +18,7 @@ class MatchService {
       await userRepository.updateProfile(winner, {
         $inc: { elo: eloChange },
       });
+      await walletRepository.addCoins(winner,50) //Kazananın cüzdanına 50 coin 
       // Kaybedenin Elo'sunu düşür
       await userRepository.updateProfile(loser, {
         $inc: { elo: -eloChange },
