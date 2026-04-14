@@ -29,5 +29,14 @@ class FriendshipRepository {
     );
     return updated;
   }
+  async getPendingRequests(userId){ //Gelen İstekleri Listeleme
+    const requests = await Friendship.find({recipient:userId,status:"pending"}).populate("requester","username avatar");
+    return requests;
+  }
+   async getFriends(userId) { //Arkadaş Listesi
+    const friends = await Friendship.find({ $or: [{ requester: userId }, { recipient: userId }], status: "accepted" }).populate("requester recipient", "username avatar")
+    return friends;
+   }
+   
 }
 module.exports = new FriendshipRepository();

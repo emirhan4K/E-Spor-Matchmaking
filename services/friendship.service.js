@@ -2,7 +2,7 @@ const friendshipRepository = require("../repositories/friendship.repository");
 const userRepository = require("../repositories/user.repository");
 
 class FriendshipService{
-    async sendRequest(requesterId, recipientId){
+    async sendRequest(requesterId, recipientId){ //İstek gönderme
         if(requesterId === recipientId){
             throw new Error("Kendinize arkadaşlık isteği gönderemezsiniz.");
         }
@@ -44,6 +44,14 @@ class FriendshipService{
         }
          const updateRequest = await friendshipRepository.updateRequestStatus(requestId,"rejected")
         return updateRequest;
+    }
+    async getPendingRequests(userId){ //Gelen İstekleri Listeleme
+     const requests = await friendshipRepository.getPendingRequests(userId);
+     return requests;
+    }
+    async getFriends(userId){ //Arkadaş Listesi
+        const friends = await friendshipRepository.getFriends(userId);
+        return friends;
     }
 }
 module.exports = new FriendshipService();
