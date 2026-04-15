@@ -8,6 +8,7 @@ const path = require("path");
 //Utils & DB
 const socket = require("./utils/socket"); 
 const connectDB = require("./config/db"); 
+const passport = require("passport");
 
 //PROJEYİ BAŞLATMA
 const app = express();
@@ -15,6 +16,8 @@ connectDB();
 
 //Middlewares
 app.use(express.json());
+app.use(passport.initialize());
+require("./utils/passport")(passport);
 const errorHandler = require("./middlewares/errorHandler.middleware");
 
 //Route Imports

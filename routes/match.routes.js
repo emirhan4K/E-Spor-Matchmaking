@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../middlewares/authMiddleware");
+const passport = require("passport");
 const matchController = require("../controllers/match.controller");
 
 router.post("/",matchController.createMatch);
-router.get("/my-history",authMiddleware,matchController.getMyMatches);
+router.get("/my-history",passport.authenticate("jwt", { session: false }),matchController.getMyMatches);
 
 module.exports = router;

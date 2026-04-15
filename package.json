@@ -29,6 +29,8 @@
     "mongoose": "^9.4.1",
     "multer": "^2.1.1",
     "nodemon": "^3.1.14",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "socket.io": "^4.8.3"
   }
 }
