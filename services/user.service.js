@@ -29,25 +29,28 @@ class UserService {
     if (!isMatch) {
       throw new BadRequestException("Eski şifre hatalı!");
     }
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
     const updatedUser = await userRepository.updateProfile(userId, {
       password: hashedPassword,
     });
     return updatedUser;
   }
 
-  async deleteAccount(userId){
+  async deleteAccount(userId) {
     const user = await userRepository.findById(userId);
-    if(!user){
+    if (!user) {
       throw new NotFoundException("Kullanıcı bulunamadı!");
     }
     const deactivatedUser = await userRepository.deactiveAccount(userId);
     return deactivatedUser;
-
   }
 
-  async updateAvatar(userId,filename){
-    const updatedUser = await userRepository.updateProfile(userId,{avatar: filename},)
+  async updateAvatar(userId, filename) {
+    const updatedUser = await userRepository.updateProfile(userId, {
+      avatar: filename,
+    });
     return updatedUser;
   }
 }
