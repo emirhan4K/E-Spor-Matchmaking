@@ -2,7 +2,7 @@ const authService = require("../services/auth.service");
 const onlineService = require("../services/online.service");
 
 class AuthController {
-  async register(req, res) {
+  async register(req, res,next) {
     const { username, email, password } = req.body;
     try {
       const userRegister = await authService.register(
@@ -12,17 +12,17 @@ class AuthController {
       );
       res.status(201).json(userRegister);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      next(error)
     }
   }
 
-  async login(req, res) {
+  async login(req, res,next) {
     const { email, password } = req.body;
     try {
       const userLogin = await authService.login(email, password);
       res.status(200).json(userLogin);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      next(error)
     }
   }
 

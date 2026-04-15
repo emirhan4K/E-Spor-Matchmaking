@@ -23,11 +23,11 @@ class TeamService {
     return newTeam;
   }
   async getTeamById(teamId) {
-    const getAll = await teamRepository.getTeamById(teamId);
-    if (!getAll) {
+    const team = await teamRepository.getTeamById(teamId);
+    if (!team) {
       throw new NotFoundException("Takım bulunamadı!");
     }
-    return getAll;
+    return team;
   }
   async joinTeam(membersId, teamId) {
     const user = await userRepository.findById(membersId);

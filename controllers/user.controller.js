@@ -1,18 +1,19 @@
 const userService = require("../services/user.service");
 const onlineService = require("../services/online.service");
+const BadRequestException = require("../exceptions/BadRequestException");
 
 class UserController {
-  async getProfile(req, res) {
+  async getProfile(req, res, next) {
     const profile = req.user.userId;
     try {
       const result = await userService.getProfile(profile);
       res.status(200).json(result);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      next(error);
     }
   }
 
-  async updateProfile(req, res) {
+  async updateProfile(req, res, next) {
     const profile = req.user.userId;
     const { username, bio } = req.body;
     try {
@@ -23,11 +24,11 @@ class UserController {
       );
       res.status(200).json(result);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      next(error);
     }
   }
 
-  async changePassword(req, res) {
+  async changePassword(req, res, next) {
     const userId = req.user.userId;
     const { oldPassword, newPassword } = req.body;
     try {
@@ -38,41 +39,40 @@ class UserController {
       );
       res.status(200).json({ message: "Şifre başarıyla güncellendi!", result });
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      next(error);
     }
   }
 
-  async deleteAccount(req, res) {
+  async deleteAccount(req, res, next) {
     const userId = req.user.userId;
     try {
-      const result = await userService.deleteAccount(userId);
-      res.status(200).json({ message: "Hesabınız başarıyla silindi!" });
+      await userService.deleteAccount(userId);
+      res.status(204).send();
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      next(error);
     }
   }
 
-  async updateAvatar(req,res){
+  async updateAvatar(req, res, next) { 
     const userId = req.user.userId;
-    if(!req.file){
-      return res.status(400).json({message: "Lütfen bir resim dosyası yükleyin!"})
-    }
     try {
-      const result = await userService.updateAvatar(userId,req.file.filename);
-      res.status(200).json({message:"Avatar başarıyla güncellendi",result})
+      if (!req.file) {
+        throw new BadRequestException("Lütfen bir resim dosyası yükleyin!");
+      }
+      const result = await userService.updateAvatar(userId, req.file.filename);
+      res.status(200).json({ message: "Avatar başarıyla güncellendi", result });
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      next(error);
     }
   }
-
   async getOnlineUsers(req, res, next) {
-  try {
-    const activeUsers = onlineService.getOnlineUsers();
-    res.status(200).json({ count: activeUsers.length, users: activeUsers });
-  } catch (error) {
-    next(error); 
+    try {
+      const activeUsers = onlineService.getOnlineUsers();
+      res.status(200).json({ count: activeUsers.length, users: activeUsers });
+    } catch (error) {
+      next(error);
+    }
   }
-}
 }
 
 module.exports = new UserController();

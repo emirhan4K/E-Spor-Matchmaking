@@ -43,8 +43,7 @@ class UserService {
     if (!user) {
       throw new NotFoundException("Kullanıcı bulunamadı!");
     }
-    const deactivatedUser = await userRepository.deactiveAccount(userId);
-    return deactivatedUser;
+    await userRepository.deactiveAccount(userId);
   }
 
   async updateAvatar(userId, filename) {
