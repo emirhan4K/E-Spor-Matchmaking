@@ -1,3 +1,5 @@
+const BadRequestException = require("../exceptions/BadRequestException");
+const NotFoundException = require("../exceptions/NotFoundException");
 const userRepository = require("../repositories/user.repository");
 const bcrypt = require("bcrypt");
 
@@ -5,7 +7,7 @@ class UserService {
   async getProfile(userId) {
     const userProfile = await userRepository.findById(userId);
     if (!userProfile) {
-      throw new Error("Kullanıcı bulunamadı!");
+      throw new NotFoundException("Kullanıcı bulunamadı!");
     }
     return userProfile;
   }
@@ -21,11 +23,11 @@ class UserService {
   async changePassword(userId, oldPassword, newPassword) {
     const user = await userRepository.findByIdWithPassword(userId);
     if (!user) {
-      throw new Error("Kullanıcı bulunamadı!");
+      throw new NotFoundException("Kullanıcı bulunamadı!");
     }
     const isMatch = await bcrypt.compare(oldPassword, user.password);
     if (!isMatch) {
-      throw new Error("Eski şifre hatalı!");
+      throw new BadRequestException("Eski şifre hatalı!");
     }
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     const updatedUser = await userRepository.updateProfile(userId, {
@@ -37,7 +39,7 @@ class UserService {
   async deleteAccount(userId){
     const user = await userRepository.findById(userId);
     if(!user){
-      throw new Error("Kullanıcı bulunamadı!");
+      throw new NotFoundException("Kullanıcı bulunamadı!");
     }
     const deactivatedUser = await userRepository.deactiveAccount(userId);
     return deactivatedUser;

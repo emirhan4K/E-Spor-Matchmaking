@@ -1,18 +1,20 @@
+const BadRequestException = require("../exceptions/BadRequestException");
+const NotFoundException = require("../exceptions/NotFoundException");
 const friendshipRepository = require("../repositories/friendship.repository");
 const userRepository = require("../repositories/user.repository");
 
 class FriendshipService{
     async sendRequest(requesterId, recipientId){ //İstek gönderme
         if(requesterId === recipientId){
-            throw new Error("Kendinize arkadaşlık isteği gönderemezsiniz.");
+            throw new BadRequestException("Kendinize arkadaşlık isteği gönderemezsiniz.");
         }
         const user = await userRepository.findById(recipientId); //İstek atılan kullanıcı var mı ?
         if(!user){
-            throw new Error("Kullanıcı bulunamadı!")
+            throw new NotFoundException("Kullanıcı bulunamadı!")
         }
         const control = await friendshipRepository.checkExistingRequest(requesterId,recipientId)
         if(control){
-            throw new Error("Zaten bir istek var veya arkadaşsınız");
+            throw new BadRequestException("Zaten bir istek var veya arkadaşsınız");
         }
         const saved = await friendshipRepository.createRequest(requesterId,recipientId);
         return saved;
@@ -20,13 +22,13 @@ class FriendshipService{
     async acceptRequest(userId, requestId){ //İsteği Kabul Etme
         const request = await friendshipRepository.getRequestById(requestId);
         if(!request){
-            throw new Error("Arkadaşlık isteği bulunamadı!");
+            throw new NotFoundException("Arkadaşlık isteği bulunamadı!");
         }
         if(request.recipient.toString() !== userId.toString()){
-            throw new Error("Bu isteği cevaplama yetkiniz yok!");
+            throw new BadRequestException("Bu isteği cevaplama yetkiniz yok!");
         }
         if(request.status !== "pending"){
-            throw new Error("Bu istek zaten cevaplanmış!")
+            throw new BadRequestException("Bu istek zaten cevaplanmış!")
         }
         const updateRequest = await friendshipRepository.updateRequestStatus(requestId,"accepted")
         return updateRequest;
@@ -34,13 +36,13 @@ class FriendshipService{
     async rejectRequest(userId, requestId){ //İsteği Reddetme
         const request = await friendshipRepository.getRequestById(requestId);
         if(!request){
-            throw new Error("Arkadaşlık isteği bulunamadı!");
+            throw new NotFoundException("Arkadaşlık isteği bulunamadı!");
         }
         if(request.recipient.toString() !== userId.toString()){
-            throw new Error("Bu isteği cevaplama yetkiniz yok!");
+            throw new BadRequestException("Bu isteği cevaplama yetkiniz yok!");
         }
         if(request.status !== "pending"){
-            throw new Error("Bu istek zaten cevaplanmış!")
+            throw new BadRequestException("Bu istek zaten cevaplanmış!")
         }
          const updateRequest = await friendshipRepository.updateRequestStatus(requestId,"rejected")
         return updateRequest;

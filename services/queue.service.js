@@ -1,10 +1,12 @@
+const NotFoundException = require("../exceptions/NotFoundException");
+
 class QueueService {
   constructor() {
     this.waitingPlayers = []; 
   }
   joinQueue(player) {
     if(!player){
-        throw new Error("Oyuncu bulunamadı!")
+        throw new NotFoundException("Oyuncu bulunamadı!")
     }
     const exists  = this.waitingPlayers.find((p)=> p.socketId === player.socketId)
     if(!exists ){

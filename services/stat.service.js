@@ -1,10 +1,11 @@
+const NotFoundException = require("../exceptions/NotFoundException");
 const userRepository = require("../repositories/user.repository");
 
 class StatService {
   async updateMatchResult(userId, result) {
     const user = await userRepository.findById(userId);
     if (!user) {
-      throw new Error("Kullanıcı bulunamadı");
+      throw new NotFoundException("Kullanıcı bulunamadı");
     }
     if (result === "win") {
       user.wins += 1;

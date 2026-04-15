@@ -1,26 +1,28 @@
 const walletRepository = require("../repositories/wallet.repository");
 const storeRepository = require("../repositories/store.repository");
 const userRepository = require("../repositories/user.repository");
+const NotFoundException = require("../exceptions/NotFoundException");
+const BadRequestException = require("../exceptions/BadRequestException");
 
 class WalletService {
   async buyItem(userId, itemId) {
     const user = await userRepository.findById(userId);
     if (!user) {
-      throw new Error("Kullanıcı bulunamadı!");
+      throw new NotFoundException("Kullanıcı bulunamadı!");
     }
     const item = await storeRepository.getItemById(itemId);
     if (!item) {
-      throw new Error("Eşya bulunamadı");
+      throw new NotFoundException("Eşya bulunamadı");
     }
     const wallet = await walletRepository.getWalletByUserId(userId);
     if (!wallet) {
-      throw new Error("Cüzdan bulunamadı");
+      throw new NotFoundException("Cüzdan bulunamadı");
     }
     if (wallet.coins < item.price) {
-      throw new Error("Yetersiz bakiye!");
+      throw new BadRequestException("Yetersiz bakiye!");
     }
     if (wallet.ownedItems.includes(itemId)) {
-      throw new Error("Bu eşyaya zaten sahipsin!");
+      throw new BadRequestException("Bu eşyaya zaten sahipsin!");
     }
     wallet.coins -= item.price; //Parayı düş
     wallet.ownedItems.push(itemId); //Eşyayı envantere ekle
