@@ -12,14 +12,18 @@ class QueueService {
     if(!exists ){
         this.waitingPlayers.push(player)
     }
+    const matchFound = this.checkMatch();
+    if (matchFound) {
+      console.log("🎮 Maç bulundu! Eşleşen oyuncular:", matchFound);
+    }
   }
   leaveQueue(socketId) {
     this.waitingPlayers = this.waitingPlayers.filter((player)=> player.socketId !== socketId);
   }
 
   checkMatch() {
-    if(this.waitingPlayers.length >= 2){
-     const matchedPlayers = this.waitingPlayers.splice(0,2);
+    if(this.waitingPlayers.length >= 2){ // Sırada 2 veya daha fazla kişi varsa
+     const matchedPlayers = this.waitingPlayers.splice(0,2); // İlk 2 kişiyi kuyruktan kopar ve geri dön
      return matchedPlayers;
     }
     return null;
