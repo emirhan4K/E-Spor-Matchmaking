@@ -8,7 +8,8 @@ const errorHandler = (err, req, res, next) => {
   // Hatayı müşteriye JSON formatında gönderir
   res.status(statusCode).json({
     success: false,
-    message: message,
+    message: err.message || "Sunucu içi bir hata oluştu",
+    stack: process.env.NODE_ENV === "development" ? err.stack : {}
   });
 };
 

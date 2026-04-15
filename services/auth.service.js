@@ -1,16 +1,20 @@
 const userRepository = require("../repositories/user.repository");
 const walletRepository = require("../repositories/wallet.repository");
 const onlineService = require("./online.service");
+const BadRequestException = require("../exceptions/BadRequestException");
+const NotFoundException = require("../exceptions/NotFoundException");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-class AuthSerice {
+class AuthService {
   async register(username, email, password) {
     const existingUser = await userRepository.findByEmail(email);
     if (existingUser) {
-      throw new Error("Bu email zaten kayitli!");
+      throw new BadRequestException("Bu email zaten kayıtlı!");
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds)
+    const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = await userRepository.createUser({
       username,
       email,
@@ -31,11 +35,11 @@ class AuthSerice {
   async login(email, password) {
     const existingUser = await userRepository.findByEmail(email);
     if (!existingUser) {
-      throw new Error("Hatalı e-posta");
+      throw new BadRequestException("Hatalı e-posta");
     }
 
     if(existingUser.isActive === false){
-      throw new Error("Bu hesap silinmiştir. Lütfen destek ekibiyle iletişime geçin.");
+      throw new NotFoundException("Bu hesap silinmiştir. Lütfen destek ekibiyle iletişime geçin.");
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -43,7 +47,7 @@ class AuthSerice {
       existingUser.password,
     );
     if (!isPasswordValid) {
-      throw new Error("Geçersiz sifre");
+      throw new BadRequestException("Geçersiz sifre");
     }
     const token = jwt.sign(
       { userId: existingUser._id },
@@ -58,4 +62,4 @@ class AuthSerice {
 
 }
 
-module.exports = new AuthSerice();
+module.exports = new AuthService();
