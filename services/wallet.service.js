@@ -6,11 +6,11 @@ const BadRequestException = require("../exceptions/BadRequestException");
 
 class WalletService {
   async buyItem(userId, itemId) {
-    const user = await userRepository.findById(userId);
+    const user = await userRepository.getById(userId);
     if (!user) {
       throw new NotFoundException("Kullanıcı bulunamadı!");
     }
-    const item = await storeRepository.getItemById(itemId);
+    const item = await storeRepository.getById(itemId);
     if (!item) {
       throw new NotFoundException("Eşya bulunamadı");
     }

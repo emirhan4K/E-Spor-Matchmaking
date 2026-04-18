@@ -3,7 +3,7 @@ const userRepository = require("../repositories/user.repository");
 
 class StatService {
   async updateMatchResult(userId, result) {
-    const user = await userRepository.findById(userId);
+    const user = await userRepository.getById(userId);
     if (!user) {
       throw new NotFoundException("Kullanıcı bulunamadı");
     }
@@ -22,7 +22,7 @@ class StatService {
         user.level +=1;
         user.xp -=100;
     }
-    const updatedStats = await userRepository.updateProfile(userId,{
+    const updatedStats = await userRepository.update(userId,{
         wins:user.wins,
         losses:user.losses,
         winRate:user.winRate,
