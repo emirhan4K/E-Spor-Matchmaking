@@ -1,19 +1,19 @@
 const Team = require("../models/Team.model");
+const BaseRepository = require("./base.repository");
 
-class TeamRepository{
-    async createTeam(teamData){
-        const save = await Team.create(teamData);
-        return save;
+class TeamRepository extends BaseRepository {
+    constructor() {
+        super(Team);
     }
-    async getTeamById(teamId){
-        const teams = await Team.findById(teamId).populate("leader","username avatar").populate("members", "username elo");
-        return teams;
+    async getTeamById(teamId){ //Takım ID'sine göre takım bilgisi getir ve üyeleri de dahil et
+        return await this.model.findById(teamId).populate("leader", "username avatar").populate("members", "username elo");
     }
-    async addMemberToTeam(teamId,userId){
-        const teams = await Team.findByIdAndUpdate(teamId,{
-            $push:{members: userId}
-        },{new: true})
-        return teams
+    async addMemberToTeam(teamId,userId){ //Takıma üye ekleme işlemi, aynı üyeyi tekrar eklememek için $addToSet operatörünü kullan
+        return await this.model.findByIdAndUpdate(
+            teamId,
+            { $addToSet: { members: userId } }, //Üyeyi ekle, ancak zaten varsa tekrar ekleme
+            { new: true }
+        ).populate("members");
     }
 }
 

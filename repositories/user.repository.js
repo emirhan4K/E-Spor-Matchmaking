@@ -1,46 +1,28 @@
 const User = require("../models/User.model");
 const BaseRepository = require("./base.repository");
 
-class UserRepository {
+class UserRepository extends BaseRepository {
+  constructor() {
+    super(User);
+  }
   async findByEmail(email) {  
-    const user = await User.findOne({ email });
-    return user;
+    return await this.model.findOne({ email });
   }
 
-  async createUser(userData) {
-    const create = await User.create(userData);
-    return create;
+  async findByIdWithoutPassword(userId) { //Şifreyi hariç tutarak kullanıcıyı bul
+    return await this.model.findById(userId).select("-password");
   }
 
-  async findById(userId) {
-    const user = await User.findById(userId).select("-password");
-    return user;
+  async getLeaderboard(limit) { //Elo sıralamasına göre lider tablosu getir ve sadece username, elo ve avatar alanlarını seç
+    return await this.model.find().sort({ elo: -1 }).limit(limit).select("username elo avatar");
   }
 
-  async updateProfile(userId, updateData) {
-    const user = await User.findByIdAndUpdate(userId, updateData, {
-      new: true,
-    }).select("-password");
-    return user;
-  }
-
-  async findByIdWithPassword(userId) {
-    const user = await User.findById(userId);
-    return user;
-  }
-
-  async deactiveAccount(userId) {
-    const user = await User.findByIdAndDelete(
+  async deactiveAccount(userId) { //Hesabı pasif hale getirme ve güncelleme işlemi
+    return await this.model.findByIdAndUpdate(
       userId,
       { isActive: false },
-      { new: true },
+      { new: true }
     );
-    return user;
-  }
-
-  async getLeaderboard(limit){
-    const user = await User.find().sort({elo: -1}).limit(limit).select("username elo avatar")
-    return user;
   }
 }
 

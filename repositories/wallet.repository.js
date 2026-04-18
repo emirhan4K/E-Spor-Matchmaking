@@ -1,17 +1,19 @@
 const Wallet = require("../models/Wallet.model");
+const BaseRepository = require("./base.repository");
 
-class WalletRepository{
-   async createWallet(userId){
-        const create = await Wallet.create({owner:userId});
-        return create;
+class WalletRepository extends BaseRepository {
+    constructor() {
+        super(Wallet);
     }
-    async getWalletByUserId(userId){
-        const search = await Wallet.findOne(userId).populate("ownedItems");
-        return search;
+    async getWalletByUserId(userId){ // Kullanıcı ID'sine göre cüzdan bilgisi getir
+        return await this.model.findOne({ owner: userId }).populate("owner", "username");
     }
-    async addCoins(userId, amount){
-        const coin = await Wallet.findByIdAndUpdate({ owner: userId }, { $inc: { coins: amount } }, { new: true });
-        return coin;
+    async addCoins(userId, amount){ // Kullanıcı cüzdanına coin ekleme işlemi, $inc operatörünü kullanarak mevcut coin miktarını artır
+        return await this.model.findOneAndUpdate(
+            { owner: userId },
+            { $inc: { coins: amount } }, // Belirtilen miktarda coin ekle
+            { new: true } // Güncellenmiş belgeyi döndür
+        ).populate("owner", "username");
     }
 }
 
