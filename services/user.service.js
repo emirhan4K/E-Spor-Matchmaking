@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 
 class UserService {
   async getProfile(userId) {
-    const userProfile = await userRepository.findById(userId);
+    const userProfile = await userRepository.getById(userId);
     if (!userProfile) {
       throw new NotFoundException("Kullanıcı bulunamadı!");
     }
@@ -13,7 +13,7 @@ class UserService {
   }
 
   async updateUserProfile(userId, username, bio) {
-    const update = await userRepository.updateProfile(userId, {
+    const update = await userRepository.update(userId, {
       username,
       bio,
     });
@@ -21,7 +21,7 @@ class UserService {
   }
 
   async changePassword(userId, oldPassword, newPassword) {
-    const user = await userRepository.findByIdWithPassword(userId);
+    const user = await userRepository.getById(userId);
     if (!user) {
       throw new NotFoundException("Kullanıcı bulunamadı!");
     }
@@ -32,14 +32,14 @@ class UserService {
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
-    const updatedUser = await userRepository.updateProfile(userId, {
+    const updatedUser = await userRepository.update(userId, {
       password: hashedPassword,
     });
     return updatedUser;
   }
 
   async deleteAccount(userId) {
-    const user = await userRepository.findById(userId);
+    const user = await userRepository.getById(userId);
     if (!user) {
       throw new NotFoundException("Kullanıcı bulunamadı!");
     }
@@ -47,7 +47,7 @@ class UserService {
   }
 
   async updateAvatar(userId, filename) {
-    const updatedUser = await userRepository.updateProfile(userId, {
+    const updatedUser = await userRepository.update(userId, {
       avatar: filename,
     });
     return updatedUser;

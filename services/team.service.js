@@ -5,23 +5,25 @@ const userRepository = require("../repositories/user.repository");
 
 class TeamService {
   async createTeam(userId, teamName) {
-    const user = await userRepository.findById(userId);
+    const user = await userRepository.getById(userId);
     if (!user) {
       throw new NotFoundException("Kullanıcı bulunamadı!");
     }
     if (user.team) {
       throw new BadRequestException("Zaten bir takımdasın!");
     }
-    const newTeam = await teamRepository.createTeam({
+    const newTeam = await teamRepository.create({
       name: teamName,
       leader: userId,
       members: [userId],
     });
-    await userRepository.updateProfile(userId, {
-      team: newTeam.id,
+    await userRepository.update(userId, {
+      team: newTeam._id, 
     });
+    
     return newTeam;
   }
+
   async getTeamById(teamId) {
     const team = await teamRepository.getTeamById(teamId);
     if (!team) {
@@ -29,8 +31,9 @@ class TeamService {
     }
     return team;
   }
+
   async joinTeam(membersId, teamId) {
-    const user = await userRepository.findById(membersId);
+    const user = await userRepository.getById(membersId);
     if (!user) {
       throw new NotFoundException("Kullanıcı bulunamadı!");
     }
@@ -42,9 +45,10 @@ class TeamService {
       throw new NotFoundException("Takım bulunamadı!");
     }
     await teamRepository.addMemberToTeam(teamId, membersId);
-    const updatedUser = await userRepository.updateProfile(membersId, {
+    const updatedUser = await userRepository.update(membersId, {
       team: teamId,
     });
+    
     return { updatedUser, team };
   }
 }
