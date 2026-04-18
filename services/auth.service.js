@@ -15,14 +15,14 @@ class AuthService {
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds)
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser = await userRepository.createUser({
+    const newUser = await userRepository.create({
       username,
       email,
       password: hashedPassword,
     });
 
-    const newWallet = await walletRepository.createWallet(newUser._id);
-    await userRepository.updateProfile(newUser._id,{
+    const newWallet = await walletRepository.create({ owner: newUser._id });
+    await userRepository.update(newUser._id,{
       wallet:newWallet.id,
     });
 
