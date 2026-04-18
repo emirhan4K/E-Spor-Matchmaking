@@ -20,9 +20,8 @@ class BaseRepository {
   async update(id, data) {
     return await this.model.findByIdAndUpdate(id, data, { new: true });
   }
-  async getManyByIds(ids) { // Birden fazla ID'ye göre kayıtları getir
-    return await this.model.find({ _id: { $in: ids } }); // $in operatörünü kullanarak belirtilen ID'lerden herhangi birine sahip kayıtları getir
+  async getManyByIds(ids) { 
+    return await this.model.find({ _id: { $in: ids } });
   }
 }
-
 module.exports = BaseRepository;
